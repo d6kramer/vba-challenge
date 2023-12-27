@@ -1,1 +1,165 @@
 
+' Create a script that loops through all the stocks for one year and outputs the following information:
+
+    'The ticker symbol
+
+    'Yearly change from the opening price at the beginning of a given year to the closing price at the end of that year.
+
+    'The percentage change from the opening price at the beginning of a given year to the closing price at the end of that year.
+
+    'The total stock volume of the stock.
+
+
+Sub StockSummary():
+
+
+
+' Find the last row in the worksheet
+
+lastrow = Cells(Rows.Count, 1).End(xlUp).Row
+
+
+' Set a variable for each stock ticker
+
+Dim ticker_symbol As String
+
+' Set a variable to hold Yearly Change of stock price
+
+
+
+Dim yearly_change As Double
+
+yearly_change = 0
+
+' Set a variable to hold the percentage change of stock price
+
+Dim percent_change As Double
+
+percent_change = 0
+
+' Set a variable to hold Total stock volume
+
+Dim stock_volume As LongLong
+
+stock_volume = 0
+
+' Track the location in the Summary Row for each entry
+
+Dim summary_row As Integer
+summary_row = 2
+
+
+' Set Column Headers for Script Calculations
+
+Range("I1").Value = "Ticker"
+Range("J1").Value = "Yearly Change"
+Range("K1").Value = "Percent Change"
+Range("L1").Value = "Total Stock Volume"
+
+' Set the Percent Change summary column to proper percentage format
+
+Columns("K").NumberFormat = "0.00%"
+
+
+' Loop through stock data
+
+For i = 2 To lastrow
+
+' Capture the opening price of the year
+
+Dim initial_stock_price As Boolean
+
+    If initial_stock_price = False Then
+
+    Dim opening_price As Double
+    opening_price = Cells(i, 3).Value
+    
+    initial_stock_price = True
+    
+    End If
+    
+        ' Checking for a change to the ticker symbol. If there is, do this
+    
+            If Cells(i + 1, 1).Value <> Cells(i, 1).Value Then
+    
+        ' Set the Ticker Symbol Name
+        
+                ticker_symbol = Cells(i, 1).Value
+        
+        ' Calculate the Yearly Change
+        
+                yearly_change = Cells(i, 6).Value - opening_price
+                
+        ' Calculate the Percent Change in price
+        
+                percent_change = ((Cells(i, 6).Value / opening_price) - 1)
+                
+        ' Calculate the total stock volume
+        
+                stock_volume = stock_volume + Cells(i, 7).Value
+        
+        ' Print the stock ticker to the summary row
+        
+                Range("I" & summary_row).Value = ticker_symbol
+        
+        ' Print the yearly change to the summary row
+        
+                Range("J" & summary_row).Value = yearly_change
+                
+        ' Apply Conditional formatting to change colors of yearly change based on positive or negative value
+                
+                If yearly_change >= 0 Then
+                    
+                    Range("J" & summary_row).Interior.ColorIndex = 4
+                    
+                Else
+                
+                    Range("J" & summary_row).Interior.ColorIndex = 3
+                    
+                End If
+                
+                
+        ' Print the percent change to the summary row
+        
+                Range("K" & summary_row).Value = percent_change
+        
+        ' Print the total stock volume to the summary row
+        
+                Range("L" & summary_row).Value = stock_volume
+        
+        ' Increase summary row by one
+        
+                summary_row = summary_row + 1
+        
+        ' Reset the the summary row values to 0
+        
+                stock_volume = 0
+        
+        ' Reset the initial price and opening price
+        
+                intial_stock_price = False
+                opening_price = Cells(i + 1, 3).Value
+                
+        ' Reset the percent change
+        
+                percent_change = 0
+        
+             
+    ' If this is no change to the ticker symbol, do this
+    
+            Else
+    
+    
+            stock_volume = stock_volume + Cells(i, 7).Value
+    
+    
+            End If
+            
+    
+         
+Next i
+
+
+
+End Sub
+
