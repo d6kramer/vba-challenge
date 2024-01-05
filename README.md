@@ -1,6 +1,10 @@
 # vba-challenge
 Module 2 Assignment
 
+The solution file in the repository is titled "Stocksummary_tool_final.vbs."
+
+These were sources that I utilized while making my script with a short description of what I learned from the source:
+
 Using Boolean Conditional to set the opening price:
 
 https://stackoverflow.com/questions/59461571/how-do-i-keep-initial-value-in-a-for-loop
